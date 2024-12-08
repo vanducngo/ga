@@ -57,9 +57,16 @@ class Solution:
         x_adv = self.x.copy()
         
         for i in range(self.delta):
-            x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += np.uint8(self.values[i] * self.p_size)
+            row = self.pixels[i] // self.w
+            col = self.pixels[i] % self.w
+            # print(f"Before Update: {x_adv[row, col]}")
+            x_adv[row, col] += np.uint8(self.values[i] * self.p_size)
+            # print(f"After Update: {x_adv[row, col]}")
+            # x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += np.uint8(self.values[i] * self.p_size)
 
-        return np.clip(x_adv, 0, 1)
+        # x_adv = x_adv / 255
+        # return np.clip(x_adv, 0, 1)
+        return x_adv
 
     def evaluate(self, loss_function, include_dist):
         # Tạo hình ảnh đối kháng (img_adv)

@@ -42,8 +42,8 @@ if __name__ == "__main__":
     model = Cifar10Model(1)
 
 
-    for i in range (0, 10):
-        print(f'Attack image {i + 1}')
+    for i in range (0, 1):
+        print(f'Attack image {i + 1} => Label: {y_test[i]}')
         #loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
         loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
         params = {

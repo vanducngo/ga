@@ -41,6 +41,7 @@ class UnTargeted:
         if self.to_pytorch:
             img_ = to_pytorch(img_)
             img_ = img_[None, :]
+            
             preds = self.model.predict(img_).flatten()
             y = int(torch.argmax(preds))
         else:
