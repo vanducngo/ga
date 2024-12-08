@@ -36,29 +36,30 @@ if __name__ == "__main__":
     parser.add_argument("--save_directory", type=int)
     args = parser.parse_args()
 
-    x_test, y_test, y_target = get_images_and_labels() # replace this with your own method of getting the images and
-
-    print(f"Check data: {x_test.shape} -- {y_test.shape} -- {x_test[0].shape[0:]}")
-    # print(x_test)
+    x_test, y_test, y_target = get_images_and_labels()
+    
     # labels.
-    model = Cifar10Model(1) # replace this with you own model, assumed to return probabilities on __call__(image)
+    model = Cifar10Model(1)
 
-    #loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
-    loss = UnTargeted(model, y_test[0], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
-    params = {
-        "x": x_test[0], # Image is assume to be numpy array of shape height * width * 3
-        "eps": 24, # number of changed pixels
-        "iterations": 1000 // 2, # model query budget / population size
-        "pc": pc, # crossover parameter
-        "pm": pm, # mutation parameter
-        "pop_size": 2, # population size
-        "zero_probability": 0.3,
-        "include_dist": True, # Set false to not consider minimizing perturbation size
-        "max_dist": 1e-5, # l2 distance from the original image you are willing to end the attack
-        "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
-        "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
-        # "save_directory": args.save_directory
-        "save_directory": 'result_ngo'
-    }
-    attack = Attack(params)
-    attack.attack(loss)
+
+    for i in range (0, 10):
+        print(f'Attack image {i + 1}')
+        #loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
+        loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
+        params = {
+            "x": x_test[i], # Image is assume to be numpy array of shape height * width * 3
+            "eps": 24, # number of changed pixels
+            "iterations": 1000 // 2, # model query budget / population size
+            "pc": pc, # crossover parameter
+            "pm": pm, # mutation parameter
+            "pop_size": 2, # population size
+            "zero_probability": 0.3,
+            "include_dist": True, # Set false to not consider minimizing perturbation size
+            "max_dist": 1e-5, # l2 distance from the original image you are willing to end the attack
+            "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
+            "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
+            # "save_directory": args.save_directory
+            "save_directory": 'result_ngo'
+        }
+        attack = Attack(params)
+        attack.attack(loss)
