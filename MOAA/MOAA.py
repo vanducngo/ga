@@ -55,7 +55,7 @@ class Population:
             # hơn hoặc bằng giá trị max_dist
             if pi.is_adversarial and pi.fitnesses[1] <= max_dist:
                 adv_solns.append(pi)
-
+    
         return adv_solns
 
 

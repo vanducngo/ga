@@ -55,9 +55,10 @@ if __name__ == "__main__":
         "zero_probability": 0.3,
         "include_dist": True, # Set false to not consider minimizing perturbation size
         "max_dist": 1e-5, # l2 distance from the original image you are willing to end the attack
-        "p_size": 2.0, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
+        "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
         "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
-        "save_directory": args.save_directory
+        # "save_directory": args.save_directory
+        "save_directory": 'result_ngo'
     }
     attack = Attack(params)
     attack.attack(loss)

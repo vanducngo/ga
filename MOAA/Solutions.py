@@ -55,8 +55,16 @@ class Solution:
         Tạo hình ảnh đối kháng (x_adv) bằng cách áp dụng nhiễu lên hình ảnh gốc.
         '''
         x_adv = self.x.copy()
+        
         for i in range(self.delta):
-            x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += (self.values[i] * self.p_size)
+            print('generate_image =>')
+            print(x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w])
+            print(self.values[i])
+            print(self.p_size)
+            print((self.values[i] * self.p_size))
+            print('generate_image <=')
+            # x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += (self.values[i] * self.p_size)
+            x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += np.uint8(self.values[i] * self.p_size)
 
         return np.clip(x_adv, 0, 1)
 
