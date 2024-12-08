@@ -5,6 +5,14 @@ from LossFunctions import UnTargeted, Targeted
 import numpy as np
 import argparse
 import os
+from tensorflow.keras.datasets import cifar10
+
+
+def get_images_and_labels():
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    # Tạo nhãn mục tiêu khác với nhãn đúng
+    y_target = (y_test.flatten() + 1) % 10  # Nhãn mục tiêu là (y_test + 1) % 10
+    return x_test, y_test.flatten(), y_target
 
 
 if __name__ == "__main__":
@@ -29,13 +37,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     x_test, y_test, y_target = get_images_and_labels() # replace this with your own method of getting the images and
+
+    print(f"Check data: {x_test.shape} -- {y_test.shape} -- {x_test[0].shape[0:]}")
+    # print(x_test)
     # labels.
-    model = Cifar10Model(args.model) # replace this with you own model, assumed to return probabilities on __call__(image)
+    model = Cifar10Model(1) # replace this with you own model, assumed to return probabilities on __call__(image)
 
     #loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
-    loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
+    loss = UnTargeted(model, y_test[0], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
     params = {
-        "x": x_test, # Image is assume to be numpy array of shape height * width * 3
+        "x": x_test[0], # Image is assume to be numpy array of shape height * width * 3
         "eps": 24, # number of changed pixels
         "iterations": 1000 // 2, # model query budget / population size
         "pc": pc, # crossover parameter
