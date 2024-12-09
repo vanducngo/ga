@@ -74,12 +74,12 @@ class UnTargeted:
 
         # Tính toán giá trị log của xác suất liên quan đến nhãn đúng
         # Bảo vệ chống lỗi số học bằng cách thêm 1e-30.
-        f_true = math.log(math.exp(preds[self.true]) + 1e-30)
+        f_true = np.log(np.exp(preds[self.true]) + 1e-30)
         
         # Loại bỏ xác suất liên quan đến nhãn đúng
         preds[self.true] = -math.inf
         # Tìm xác suất cao nhất trong các nhãn còn lại
-        f_other = math.log(math.exp(max(preds)) + 1e-30)
+        f_other = math.log(max(preds) + 1e-30)
 
         # f_true - f_other: Chênh lệch giữa giá trị xác suất log của nhãn đúng và nhãn có xác suất cao nhất khác.
         return [is_adversarial, float(f_true - f_other)]

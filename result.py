@@ -1,6 +1,7 @@
 import numpy as np
 for i in range (0, 100):
-    data = np.load(f"ResultUntargeted/result_untargeted_{i}.npy", allow_pickle=True).item()
+    # data = np.load(f"ResultUntargeted/result_untargeted_{i}.npy", allow_pickle=True).item()
+    data = np.load(f"Result2/result_targeted_{i}.npy", allow_pickle=True).item()
     # Truy xuất thông tin từ file
     front0_imgs = data["front0_imgs"]  # Hình ảnh đối kháng (numpy array)
     true_label = data["true_label"]    # Nhãn đúng của hình ảnh gốc

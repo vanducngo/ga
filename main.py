@@ -5,6 +5,7 @@ from LossFunctions import UnTargeted, Targeted
 import numpy as np
 import argparse
 import os
+import torch
 from tensorflow.keras.datasets import cifar10
 import matplotlib.pyplot as plt
 
@@ -40,21 +41,22 @@ if __name__ == "__main__":
     x_test, y_test, y_target = get_images_and_labels()
     
     # labels.
-    model = Cifar10Model(1)
+    model = Cifar10Model(0)
 
 
     for i in range (0, 100):
-        # plt.imshow(x_test[i])  # Nếu img chuẩn hóa [0, 1], không cần sửa đổi
-        # plt.title(f"Adversarial Image {i+1}")
-        # plt.axis("off")
-        # plt.show()
+        # loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
+        # img_ = torch.from_numpy(x_test[i]).permute(2, 0, 1)
+        # img_ = img_[None, :]
+        # preds = model.predict(img_).flatten()
+        # y = int(torch.argmax(preds))
         print(f'Attack image {i + 1} => Label: {y_test[i]}')
-        loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
-        # loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
+
+        loss = UnTargeted(model, y_target[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
         params = {
             "x": x_test[i], # Image is assume to be numpy array of shape height * width * 3
-            "eps": 24, # number of changed pixels
-            "iterations": 1000 // 2, # model query budget / population size
+            "eps": 500, # number of changed pixels
+            "iterations": 500 // 2, # model query budget / population size
             "pc": pc, # crossover parameter
             "pm": pm, # mutation parameter
             "pop_size": 2, # population size
@@ -64,7 +66,7 @@ if __name__ == "__main__":
             "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
             "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
             # "save_directory": args.save_directory
-            "save_directory": f'ResultTargeted/result_targeted_{i}'
+            "save_directory": f'Result2/result_targeted_{i}'
         }
         attack = Attack(params)
         attack.attack(loss)

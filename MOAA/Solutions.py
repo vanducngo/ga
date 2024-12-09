@@ -41,6 +41,7 @@ class Solution:
         self.p_size = p_size
 
     def copy(self):
+        a = deepcopy(self)
         return deepcopy(self)
 
     def euc_distance(self, img):
@@ -65,8 +66,8 @@ class Solution:
             # x_adv[self.pixels[i] // self.w, self.pixels[i] % self.w] += np.uint8(self.values[i] * self.p_size)
 
         # x_adv = x_adv / 255
-        # return np.clip(x_adv, 0, 1)
-        return x_adv
+        return np.clip(x_adv, 0, 255)
+        # return x_adv
 
     def evaluate(self, loss_function, include_dist):
         # Tạo hình ảnh đối kháng (img_adv)
