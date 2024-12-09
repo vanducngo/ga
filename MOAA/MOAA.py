@@ -63,7 +63,6 @@ class Attack:
     def __init__(self, params):
         self.params = params
         self.fitness = []
-
         self.data = []
 
     # def update_data(self, front):

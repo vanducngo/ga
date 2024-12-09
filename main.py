@@ -6,6 +6,7 @@ import numpy as np
 import argparse
 import os
 from tensorflow.keras.datasets import cifar10
+import matplotlib.pyplot as plt
 
 
 def get_images_and_labels():
@@ -42,10 +43,14 @@ if __name__ == "__main__":
     model = Cifar10Model(1)
 
 
-    for i in range (0, 1):
+    for i in range (0, 100):
+        # plt.imshow(x_test[i])  # Nếu img chuẩn hóa [0, 1], không cần sửa đổi
+        # plt.title(f"Adversarial Image {i+1}")
+        # plt.axis("off")
+        # plt.show()
         print(f'Attack image {i + 1} => Label: {y_test[i]}')
-        #loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
-        loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
+        loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
+        # loss = UnTargeted(model, y_test[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
         params = {
             "x": x_test[i], # Image is assume to be numpy array of shape height * width * 3
             "eps": 24, # number of changed pixels
@@ -59,7 +64,7 @@ if __name__ == "__main__":
             "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
             "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
             # "save_directory": args.save_directory
-            "save_directory": 'result_ngo'
+            "save_directory": f'ResultTargeted/result_targeted_{i}'
         }
         attack = Attack(params)
         attack.attack(loss)
