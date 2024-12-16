@@ -1,6 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from operator import attrgetter
+import matplotlib.pyplot as plt
 
 
 '''
@@ -156,6 +157,8 @@ def fast_nondominated_sort(population):
         fronts.append(temp)
 
     return fronts
+
+
 
 '''
 Tính khoảng cách đông đúc (crowding distance) cho các giải pháp trong một mặt trận Pareto (front)

@@ -44,18 +44,13 @@ if __name__ == "__main__":
     model = Cifar10Model(0)
 
 
-    for i in range (0, 100):
-        # loss = Targeted(model, y_test[i], y_target[i], to_pytorch=True)
-        # img_ = torch.from_numpy(x_test[i]).permute(2, 0, 1)
-        # img_ = img_[None, :]
-        # preds = model.predict(img_).flatten()
-        # y = int(torch.argmax(preds))
+    for j in range (0, 2):
+        i = 60 + j* 10
         print(f'Attack image {i + 1} => Label: {y_test[i]}')
-
         loss = UnTargeted(model, y_target[i], to_pytorch=True) # to_pytorch is True only is the model is a pytorch model
         params = {
             "x": x_test[i], # Image is assume to be numpy array of shape height * width * 3
-            "eps": 500, # number of changed pixels
+            "eps": 30, # number of changed pixels
             "iterations": 500 // 2, # model query budget / population size
             "pc": pc, # crossover parameter
             "pm": pm, # mutation parameter
@@ -63,10 +58,10 @@ if __name__ == "__main__":
             "zero_probability": 0.3,
             "include_dist": True, # Set false to not consider minimizing perturbation size
             "max_dist": 1e-5, # l2 distance from the original image you are willing to end the attack
-            "p_size": 2, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
+            "p_size": 20, # Perturbation values have {-p_size, p_size, 0}. Change this if you want smaller perturbations.
             "tournament_size": 2, #Number of parents compared to generate new solutions, cannot be larger than the population
             # "save_directory": args.save_directory
-            "save_directory": f'Result2/result_targeted_{i}'
+            "save_directory": f'Result3/result_targeted_{i}'
         }
         attack = Attack(params)
         attack.attack(loss)

@@ -77,6 +77,7 @@ class Attack:
             adversarial_labels.append(loss_function.get_label(soln.generate_image()))
 
         d = {"front0_imgs": [soln.generate_image() for soln in population.fronts[0]],
+             "x": population.fronts[0][0].x,
              "queries": fe,
              "true_label": loss_function.true,
              "adversarial_labels": adversarial_labels,
@@ -199,4 +200,12 @@ class Attack:
         # Gọi completion_procedure để xử lý kết quả.
         self.completion_procedure(population, loss_function, fe, False)
         #print(time.time() - start)ff
+        print(population.fronts)
+        # print_pareto_fronts(population.fronts)
         return
+
+# def print_pareto_fronts(fronts):
+#     for i, front in enumerate(fronts):
+#         print(f"Pareto Front {i + 1}:")
+#         for individual in front:
+#             print(f"  Individual: Objectives {individual.objectives}, Rank: {individual.rank}")

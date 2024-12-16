@@ -30,3 +30,11 @@ the loss off of an adversarial image i.e. f(<strong>x_adv}</strong>). The method
 <code>
 You can access the paper <a href="./CVPR_paper.pdf" download>[here]</a>.
 </code>
+
+
+
+## Install Step:
+1. pip install -r /content/ga/requirements.txt
+2. pip3 install autoattack@git+https://github.com/fra31/auto-attack.git@6482e4d6fbeeb51ae9585c41b16d50d14576aadc
+3. pip3 install robustbench@git+https://github.com/RobustBench/robustbench.git@eecfdef49ab30b62f2e6bcff3e3fe045b054557c
+4. python /content/ga/main.py
